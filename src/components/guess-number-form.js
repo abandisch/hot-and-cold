@@ -4,19 +4,28 @@ export default class GuessNumberForm extends React.Component {
 
   onSubmit(event) {
     event.preventDefault();
-    const number = parseInt(this.textInput.value.trim(), 10);
-    if (Number.isInteger(number)) {
-      this.props.onSubmit(number);
+    let number = null;
+    if (this.textInput !== null) {
+      number = parseInt(this.textInput.value.trim(), 10);
       this.textInput.value = '';
     }
-    this.textInput.focus();
+    this.props.onSubmit(number);
   }
 
   render() {
+    if (this.props.displayRestartForm) {
+      return (
+        <form onSubmit={e => this.onSubmit(e)}>
+          <button>Restart Game!</button>
+        </form>
+      )
+    }
     return (
       <form onSubmit={e => this.onSubmit(e)}>
         <input
-          type="text"
+          type="number"
+          min={this.props.min}
+          max={this.props.max}
           ref={input => this.textInput = input}
         />
         <button>Guess</button>
