@@ -1,11 +1,14 @@
 import React from 'react';
-import GuessResult from "./guess-result";
+import GuessResult from './guess-result';
+import GuessedNumbersList from './guessed-numbers-list';
+import GuessedNumberCount from './guessed-numbers-count';
 
 export default class HotAndColdApp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      guessResult: 'Make your Guess!'
+      guessResult: 'Make your Guess!',
+      guessedNumbers: []
     }
   }
   render() {
@@ -13,8 +16,8 @@ export default class HotAndColdApp extends React.Component {
       <div>
         <GuessResult guessResult={this.state.guessResult} />
         <div id="guessForm">GuessForm</div>
-        <div id="guessCount">GuessCount</div>
-        <div id="guessNumbers">GuessNumbers</div>
+        <GuessedNumberCount count={this.state.guessedNumbers.length} />
+        <GuessedNumbersList numbers={this.state.guessedNumbers} />
       </div>
     );
   }
