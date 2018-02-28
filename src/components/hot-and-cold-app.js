@@ -3,6 +3,7 @@ import GuessResult from './guess-result';
 import GuessedNumbersList from './guessed-numbers-list';
 import GuessedNumberCount from './guessed-numbers-count';
 import GuessNumberForm from './guess-number-form';
+import './hot-and-cold-app.css';
 
 export default class HotAndColdApp extends React.Component {
   constructor(props) {
@@ -69,15 +70,18 @@ export default class HotAndColdApp extends React.Component {
   render() {
     return (
       <div>
-        <GuessResult guessResult={this.state.guessResultText} />
-        <GuessNumberForm
-          displayRestartForm={this.state.guessedCorrectly}
-          onSubmit={number => this.state.guessedCorrectly ? this.onSubmitRestart(number) : this.onSubmitGuessedNumber(number)}
-          min={this.props.minNumber}
-          max={this.props.maxNumber}
-        />
-        <GuessedNumberCount count={this.state.guessedNumbers.length} />
-        <GuessedNumbersList numbers={this.state.guessedNumbers} />
+        <h1>HOT or COLD</h1>
+        <div className="game">
+          <GuessResult guessResult={this.state.guessResultText} />
+          <GuessNumberForm
+            displayRestartForm={this.state.guessedCorrectly}
+            onSubmit={number => this.state.guessedCorrectly ? this.onSubmitRestart(number) : this.onSubmitGuessedNumber(number)}
+            min={this.props.minNumber}
+            max={this.props.maxNumber}
+          />
+          <GuessedNumberCount count={this.state.guessedNumbers.length} />
+          <GuessedNumbersList numbers={this.state.guessedNumbers} />
+        </div>
       </div>
     );
   }
