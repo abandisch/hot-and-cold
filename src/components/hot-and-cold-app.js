@@ -13,10 +13,18 @@ export default class HotAndColdApp extends React.Component {
     this.state = {
       showGameRules: false,
       guessResultText: 'Make a Guess!',
+      guessResultTextTemplates: {
+        start: 'Make a Guess!',
+        gameWon: 'You Won. Click Restart Game to play again.',
+        hot: 'Hot!',
+        kindaHot: 'Kinda Hot ...',
+        cold: 'Brr ... Cold!'
+      },
       guessedCorrectly: false,
       guessedNumbers: [],
       numberToGuess: this.generateNumberToGuess(this.props.minNumber, this.props.maxNumber)
-    }
+    };
+    this.addGuessedNumber = this.addGuessedNumber.bind(this);
   }
 
   setShowGameRules(showGameRules) {
@@ -39,17 +47,21 @@ export default class HotAndColdApp extends React.Component {
     this.setState({numberToGuess});
   }
 
+  addGuessedNumber(guessedNumber) {
+    this.setGuessedNumbers([...this.state.guessedNumbers, guessedNumber]);
+  }
+
   onSubmitGuessedNumber(guessedNumber) {
     console.log('for testing - numberToGuess:', this.state.numberToGuess);
-    this.setGuessedNumbers([...this.state.guessedNumbers, guessedNumber]);
+    this.addGuessedNumber(guessedNumber);
     const guessText = this.hotOrCold(this.state.numberToGuess, guessedNumber);
     this.setGuessResultText(guessText);
-    this.setGuessedCorrectly(guessText === 'You Won. Click Restart Game to play again');
+    this.setGuessedCorrectly(guessText === this.state.guessResultTextTemplates.gameWon);
   }
 
   onSubmitRestart() {
     this.setGuessedNumbers([]);
-    this.setGuessResultText('Make a Guess!');
+    this.setGuessResultText(this.state.guessResultTextTemplates.start);
     this.setGuessedCorrectly(false);
     this.setNumberToGuess(this.generateNumberToGuess(this.props.minNumber, this.props.maxNumber));
   }
@@ -60,17 +72,17 @@ export default class HotAndColdApp extends React.Component {
 
   hotOrCold(numberToGuess, guess) {
     if (numberToGuess === guess) {
-      return 'You Won. Click Restart Game to play again';
+      return this.state.guessResultTextTemplates.gameWon;
     }
     const abs = Math.abs(numberToGuess - guess);
     if (abs >= 10) {
-      return 'Cold';
+      return this.state.guessResultTextTemplates.cold;
     }
     if (abs < 10 && abs > 5) {
-      return 'Kinda Hot';
+      return this.state.guessResultTextTemplates.kindaHot;
     }
     if (abs <= 5) {
-      return 'hot';
+      return this.state.guessResultTextTemplates.hot;
     }
   }
 
@@ -99,3 +111,8 @@ export default class HotAndColdApp extends React.Component {
     );
   }
 }
+
+HotAndColdApp.defaultProps = {
+  minNumber: 1,
+  maxNumber: 100
+};
