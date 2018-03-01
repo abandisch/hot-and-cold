@@ -1,4 +1,5 @@
 import React from 'react';
+import TopNavigation from './top-navigation';
 import GuessResult from './guess-result';
 import GuessedNumbersList from './guessed-numbers-list';
 import GuessedNumberCount from './guessed-numbers-count';
@@ -68,16 +69,18 @@ export default class HotAndColdApp extends React.Component {
   }
 
   render() {
+    const {minNumber, maxNumber} = this.props;
     return (
       <div>
+        <TopNavigation onClickNewGame={() => this.onSubmitRestart()}/>
         <h1>HOT or COLD</h1>
         <div className="game">
           <GuessResult guessResult={this.state.guessResultText} />
           <GuessNumberForm
             disableInputField={this.state.guessedCorrectly}
-            onSubmit={number => this.state.guessedCorrectly ? this.onSubmitRestart(number) : this.onSubmitGuessedNumber(number)}
-            min={this.props.minNumber}
-            max={this.props.maxNumber}
+            onSubmit={number => this.state.guessedCorrectly ? this.onSubmitRestart() : this.onSubmitGuessedNumber(number)}
+            min={minNumber}
+            max={maxNumber}
             btnLabel={this.state.guessedCorrectly ? 'Restart Game!' : 'Guess'}
           />
           <GuessedNumberCount count={this.state.guessedNumbers.length} />

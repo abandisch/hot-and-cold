@@ -1,0 +1,27 @@
+nav {
+  position: relative;
+  height: 10%;
+  padding: 1em;
+}
+nav button {
+  width: auto;
+  height: auto;
+  background: transparent;
+  outline: none;
+  font-size: 24px;
+  margin: 0;
+}
+nav button:hover {
+  background: transparent;
+  cursor: pointer;
+}
+nav ul li:first-child {
+  float: left;
+}
+nav ul li:last-child {
+  float: right;
+}
+nav ul li {
+  display: list-item;
+  text-align: -webkit-match-parent;
+}
