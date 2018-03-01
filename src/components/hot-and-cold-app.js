@@ -1,5 +1,6 @@
 import React from 'react';
 import TopNavigation from './top-navigation';
+import GameRules from './game-rules';
 import GuessResult from './guess-result';
 import GuessedNumbersList from './guessed-numbers-list';
 import GuessedNumberCount from './guessed-numbers-count';
@@ -10,11 +11,16 @@ export default class HotAndColdApp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      showGameRules: false,
       guessResultText: 'Make a Guess!',
       guessedCorrectly: false,
       guessedNumbers: [],
       numberToGuess: this.generateNumberToGuess(this.props.minNumber, this.props.maxNumber)
     }
+  }
+
+  setShowGameRules(showGameRules) {
+    this.setState({showGameRules});
   }
 
   setGuessedCorrectly(guessedCorrectly) {
@@ -70,9 +76,12 @@ export default class HotAndColdApp extends React.Component {
 
   render() {
     const {minNumber, maxNumber} = this.props;
+    if (this.state.showGameRules) {
+      return <GameRules onClickClose={() => this.setShowGameRules(false)} />
+    }
     return (
       <div>
-        <TopNavigation onClickNewGame={() => this.onSubmitRestart()}/>
+        <TopNavigation onClickNewGame={() => this.onSubmitRestart()} onClickShowRules={() => this.setShowGameRules(true)}/>
         <h1>HOT or COLD</h1>
         <div className="game">
           <GuessResult guessResult={this.state.guessResultText} />
