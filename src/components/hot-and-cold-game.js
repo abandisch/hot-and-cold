@@ -75,13 +75,13 @@ export default class HotAndColdApp extends React.Component {
       return this.state.guessResultTextTemplates.gameWon;
     }
     const abs = Math.abs(numberToGuess - guess);
-    if (abs >= 10) {
+    if (abs > 10) {
       return this.state.guessResultTextTemplates.cold;
     }
-    if (abs < 10 && abs > 5) {
+    if (abs <= 10 && abs >= 5) {
       return this.state.guessResultTextTemplates.kindaHot;
     }
-    if (abs <= 5) {
+    if (abs < 5) {
       return this.state.guessResultTextTemplates.hot;
     }
   }
