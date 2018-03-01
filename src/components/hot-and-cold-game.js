@@ -5,7 +5,7 @@ import GuessResult from './guess-result';
 import GuessedNumbersList from './guessed-numbers-list';
 import GuessedNumberCount from './guessed-numbers-count';
 import GuessNumberForm from './guess-number-form';
-import './hot-and-cold-app.css';
+import './hot-and-cold-game.css';
 
 export default class HotAndColdApp extends React.Component {
   constructor(props) {
