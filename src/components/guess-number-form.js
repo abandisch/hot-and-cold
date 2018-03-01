@@ -14,16 +14,17 @@ export default class GuessNumberForm extends React.Component {
   }
 
   render() {
+    const {disableInputField, min, max, btnLabel} = this.props;
     return (
       <form onSubmit={e => this.onSubmit(e)}>
         <input
-          disabled={this.props.disableInputField}
+          disabled={disableInputField}
           type="number"
-          min={this.props.min}
-          max={this.props.max}
+          min={min}
+          max={max}
           ref={input => this.textInput = input}
         />
-        <button>{this.props.btnLabel}</button>
+        <button>{btnLabel}</button>
       </form>
     )
   }
