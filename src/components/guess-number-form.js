@@ -5,12 +5,11 @@ export default class GuessNumberForm extends React.Component {
 
   onSubmit(event) {
     event.preventDefault();
-    let number = null;
-    if (this.textInput !== null) {
-      number = parseInt(this.textInput.value.trim(), 10);
-      this.textInput.value = '';
+    let guessedNumber = parseInt(this.textInput.value.trim(), 10);
+    this.textInput.value = '';
+    if (Number.isInteger(guessedNumber) || this.textInput.disabled) {
+      this.props.onSubmit(guessedNumber);
     }
-    this.props.onSubmit(number);
   }
 
   render() {
