@@ -14,22 +14,16 @@ export default class GuessNumberForm extends React.Component {
   }
 
   render() {
-    if (this.props.displayRestartForm) {
-      return (
-        <form onSubmit={e => this.onSubmit(e)}>
-          <button>Restart Game!</button>
-        </form>
-      )
-    }
     return (
       <form onSubmit={e => this.onSubmit(e)}>
         <input
+          disabled={this.props.disableInputField}
           type="number"
           min={this.props.min}
           max={this.props.max}
           ref={input => this.textInput = input}
         />
-        <button>Guess</button>
+        <button>{this.props.btnLabel}</button>
       </form>
     )
   }

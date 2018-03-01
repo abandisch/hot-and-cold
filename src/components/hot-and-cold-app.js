@@ -37,7 +37,7 @@ export default class HotAndColdApp extends React.Component {
     this.setGuessedNumbers([...this.state.guessedNumbers, guessedNumber]);
     const guessText = this.hotOrCold(this.state.numberToGuess, guessedNumber);
     this.setGuessResultText(guessText);
-    this.setGuessedCorrectly(guessText === 'You Won. Click new game to play again');
+    this.setGuessedCorrectly(guessText === 'You Won. Click Restart Game to play again');
   }
 
   onSubmitRestart() {
@@ -53,7 +53,7 @@ export default class HotAndColdApp extends React.Component {
 
   hotOrCold(numberToGuess, guess) {
     if (numberToGuess === guess) {
-      return 'You Won. Click new game to play again';
+      return 'You Won. Click Restart Game to play again';
     }
     const abs = Math.abs(numberToGuess - guess);
     if (abs >= 10) {
@@ -74,10 +74,11 @@ export default class HotAndColdApp extends React.Component {
         <div className="game">
           <GuessResult guessResult={this.state.guessResultText} />
           <GuessNumberForm
-            displayRestartForm={this.state.guessedCorrectly}
+            disableInputField={this.state.guessedCorrectly}
             onSubmit={number => this.state.guessedCorrectly ? this.onSubmitRestart(number) : this.onSubmitGuessedNumber(number)}
             min={this.props.minNumber}
             max={this.props.maxNumber}
+            btnLabel={this.state.guessedCorrectly ? 'Restart Game!' : 'Guess'}
           />
           <GuessedNumberCount count={this.state.guessedNumbers.length} />
           <GuessedNumbersList numbers={this.state.guessedNumbers} />
