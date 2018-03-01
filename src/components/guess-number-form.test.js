@@ -30,4 +30,11 @@ describe('<GuessNumberForm />', () => {
     wrapper.simulate('submit');
     expect(callback).not.toHaveBeenCalled();
   });
+
+  it('should call the onSubmit callback if the input is disabled', () => {
+    const callback = jest.fn();
+    const wrapper = mount(<GuessNumberForm disableInputField={true} onSubmit={callback} />);
+    wrapper.simulate('submit');
+    expect(callback).toHaveBeenCalled();
+  });
 });
