@@ -84,7 +84,7 @@ export default class HotAndColdApp extends React.Component {
         <TopNavigation onClickNewGame={() => this.onSubmitRestart()} onClickShowRules={() => this.setShowGameRules(true)}/>
         <h1>HOT or COLD</h1>
         <div className="game">
-          <GuessResult guessResult={this.state.guessResultText} />
+          <GuessResult guessResultText={this.state.guessResultText} />
           <GuessNumberForm
             disableInputField={this.state.guessedCorrectly}
             onSubmit={number => this.state.guessedCorrectly ? this.onSubmitRestart() : this.onSubmitGuessedNumber(number)}
