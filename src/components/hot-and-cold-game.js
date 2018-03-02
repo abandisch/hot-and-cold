@@ -59,7 +59,7 @@ export default class HotAndColdApp extends React.Component {
   }
 
   setShowGameRules(showGameRules) {
-    this.setState({showGameRules});
+    return () => this.setState({showGameRules});
   }
 
   setGuessedCorrectly(guessedCorrectly) {
@@ -110,11 +110,11 @@ export default class HotAndColdApp extends React.Component {
   render() {
     const {minNumber, maxNumber} = this.props;
     if (this.state.showGameRules) {
-      return <GameRules onClickClose={() => this.setShowGameRules(false)} />
+      return <GameRules onClickClose={this.setShowGameRules(false)} />
     }
     return (
       <div>
-        <TopNavigation onClickNewGame={this.onSubmitRestart} onClickShowRules={() => this.setShowGameRules(true)}/>
+        <TopNavigation onClickNewGame={this.onSubmitRestart} onClickShowRules={this.setShowGameRules(true)}/>
         <h1>HOT or COLD</h1>
         <div className="game">
           <GuessResult guessResultText={this.state.guessResultText} />
