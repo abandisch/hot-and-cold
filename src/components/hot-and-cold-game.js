@@ -7,24 +7,38 @@ import GuessedNumberCount from './guessed-numbers-count';
 import GuessNumberForm from './guess-number-form';
 import './hot-and-cold-game.css';
 
+const compose = (...fns) => (...args) => {
+  return fns.slice(0, -1).reduceRight((res, fn) => fn(res),
+    fns[fns.length -1].apply(null,args)
+  );
+};
+
+const labelTemplates = {
+  gameStart: 'Make a Guess!',
+  gameEnd: 'You Won. Click Restart Game to play again.',
+  extremelyHot: 'Extremely Hot!!!',
+  hot: 'Hot!',
+  kindaHot: 'Kinda Hot ...',
+  cold: 'Brr ... Cold!'
+};
+
+const generateNumberToGuess = (min, max) => {
+  return Math.floor(Math.random() * max) + min;
+};
+
 export default class HotAndColdApp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       showGameRules: false,
-      guessResultText: 'Make a Guess!',
-      guessResultTextTemplates: {
-        start: 'Make a Guess!',
-        gameWon: 'You Won. Click Restart Game to play again.',
-        hot: 'Hot!',
-        kindaHot: 'Kinda Hot ...',
-        cold: 'Brr ... Cold!'
-      },
+      guessResultText: labelTemplates.gameStart,
       guessedCorrectly: false,
       guessedNumbers: [],
-      numberToGuess: this.generateNumberToGuess(this.props.minNumber, this.props.maxNumber)
+      numberToGuess: generateNumberToGuess(this.props.minNumber, this.props.maxNumber)
     };
-    // this.addGuessedNumber = this.addGuessedNumber.bind(this);
+    this.onSubmitRestart = this.onSubmitRestart.bind(this);
+    this.onSubmitGuessedNumber = this.onSubmitGuessedNumber.bind(this);
+    this.regenerateNumberToGuess = this.regenerateNumberToGuess.bind(this);
   }
 
   setShowGameRules(showGameRules) {
@@ -32,58 +46,63 @@ export default class HotAndColdApp extends React.Component {
   }
 
   setGuessedCorrectly(guessedCorrectly) {
-    this.setState({guessedCorrectly});
+    return state => ({...state, ...{guessedCorrectly}});
   }
 
-  setGuessedNumbers(guessedNumbers) {
-    this.setState({guessedNumbers});
+  resetGuessedNumbers(state) {
+    return ({...state, ...{guessedNumbers: []}});
   }
 
-  setGuessResultText(guessResultText) {
-    this.setState({guessResultText});
+  resetGuessResultText(state) {
+    return ({...state, ...{guessResultText: labelTemplates.gameStart}});
   }
 
-  setNumberToGuess(numberToGuess) {
-    this.setState({numberToGuess});
+  regenerateNumberToGuess(state) {
+    return ({...state, ...{numberToGuess: generateNumberToGuess(this.props.minNumber, this.props.maxNumber)}})
   }
+
+  addGuessedNumber(newNumber) {
+    return state => ({...state, ...{guessedNumbers: [...state.guessedNumbers, newNumber]}});
+  }
+
+  isCorrectGuess(guessedNumber) {
+    return state => ({...state, ...{guessedCorrectly: state.numberToGuess === guessedNumber}})
+  }
+
+  hotOrColdLabel = guessedNumber => {
+    return state => {
+      let label = '';
+      const abs = Math.abs(state.numberToGuess - guessedNumber);
+      if (state.numberToGuess === guessedNumber) {
+        label = labelTemplates.gameEnd;
+      } else if (abs > 10) {
+        label = labelTemplates.cold;
+      } else if (abs <= 10 && abs >= 6) {
+        label = labelTemplates.kindaHot;
+      } else if (abs <= 5 && abs >=3) {
+        label = labelTemplates.hot;
+      } else if(abs < 3) {
+        label = labelTemplates.extremelyHot;
+      }
+      return {...state, ...{guessResultText: label}}
+    };
+  };
 
   onSubmitGuessedNumber(guessedNumber) {
-    console.log('for testing - numberToGuess:', this.state.numberToGuess);
-    const guessResultText = this.hotOrCold(this.state.numberToGuess, guessedNumber);
-    const guessedCorrectly = this.state.numberToGuess === guessedNumber;
-    const guessedNumbers = [...this.state.guessedNumbers, guessedNumber];
-    this.setState({
-      guessResultText,
-      guessedCorrectly,
-      guessedNumbers
-    });
+    const newState = compose(
+      this.hotOrColdLabel(guessedNumber),
+      this.isCorrectGuess(guessedNumber),
+      this.addGuessedNumber(guessedNumber))(this.state);
+    this.setState(newState);
   }
 
   onSubmitRestart() {
-    this.setGuessedNumbers([]);
-    this.setGuessResultText(this.state.guessResultTextTemplates.start);
-    this.setGuessedCorrectly(false);
-    this.setNumberToGuess(this.generateNumberToGuess(this.props.minNumber, this.props.maxNumber));
-  }
-
-  generateNumberToGuess(min, max) {
-    return Math.floor(Math.random() * max) + min;
-  }
-
-  hotOrCold(numberToGuess, guess) {
-    if (numberToGuess === guess) {
-      return this.state.guessResultTextTemplates.gameWon;
-    }
-    const abs = Math.abs(numberToGuess - guess);
-    if (abs > 10) {
-      return this.state.guessResultTextTemplates.cold;
-    }
-    if (abs <= 10 && abs >= 5) {
-      return this.state.guessResultTextTemplates.kindaHot;
-    }
-    if (abs < 5) {
-      return this.state.guessResultTextTemplates.hot;
-    }
+    const newState = compose(
+      this.regenerateNumberToGuess,
+      this.setGuessedCorrectly(false),
+      this.resetGuessResultText,
+      this.resetGuessedNumbers)(this.state);
+    this.setState(newState);
   }
 
   render() {
@@ -93,7 +112,7 @@ export default class HotAndColdApp extends React.Component {
     }
     return (
       <div>
-        <TopNavigation onClickNewGame={() => this.onSubmitRestart()} onClickShowRules={() => this.setShowGameRules(true)}/>
+        <TopNavigation onClickNewGame={this.onSubmitRestart} onClickShowRules={() => this.setShowGameRules(true)}/>
         <h1>HOT or COLD</h1>
         <div className="game">
           <GuessResult guessResultText={this.state.guessResultText} />

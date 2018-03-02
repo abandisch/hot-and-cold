@@ -20,7 +20,7 @@ describe('<HotAndColdGame />', () => {
     expect(wrapper.state('numberToGuess')).toBeLessThanOrEqual(100);
   });
 
-  it('Can start a new game', () => {
+  it('starts a new game', () => {
     const wrapper = shallow(<HotAndColdGame />);
     wrapper.setState({
       guessedNumbers: [1, 2, 3, 4],
@@ -33,52 +33,84 @@ describe('<HotAndColdGame />', () => {
     expect(wrapper.state('numberToGuess')).toBeLessThanOrEqual(100);
   });
 
-  it('Can make a guess that is cold', () => {
+  it('recognises a guess that is \'Brr ... Cold!\'', () => {
     const wrapper = shallow(<HotAndColdGame />);
     wrapper.setState({
       numberToGuess: 50
     });
+
+    const expectedObject = {
+      guessedNumbers: [25],
+      guessResultText: 'Brr ... Cold!',
+      guessedCorrectly: false
+    };
 
     wrapper.instance().onSubmitGuessedNumber(25);
-    expect(wrapper.state('guessedNumbers')).toEqual([25]);
-    expect(wrapper.state('guessResultText')).toEqual('Brr ... Cold!');
-    expect(wrapper.state('guessedCorrectly')).toEqual(false);
+    expect(wrapper.state()).toEqual(expect.objectContaining(expectedObject));
   });
 
-  it('Can make a guess that is kinda hot', () => {
+  it('recognises a guess that is \'Kinda Hot ...\'', () => {
     const wrapper = shallow(<HotAndColdGame />);
     wrapper.setState({
       numberToGuess: 50
     });
+
+    const expectedObject = {
+      guessedNumbers: [60],
+      guessResultText: 'Kinda Hot ...',
+      guessedCorrectly: false
+    };
 
     wrapper.instance().onSubmitGuessedNumber(60);
-    expect(wrapper.state('guessedNumbers')).toEqual([60]);
-    expect(wrapper.state('guessResultText')).toEqual('Kinda Hot ...');
-    expect(wrapper.state('guessedCorrectly')).toEqual(false);
+    expect(wrapper.state()).toEqual(expect.objectContaining(expectedObject));
   });
 
-  it('Can make a guess that is hot', () => {
+  it('recognises a guess that is \'Hot!\'', () => {
     const wrapper = shallow(<HotAndColdGame />);
     wrapper.setState({
       numberToGuess: 50
     });
+
+    const expectedObject = {
+      guessedNumbers: [54],
+      guessResultText: 'Hot!',
+      guessedCorrectly: false
+    };
 
     wrapper.instance().onSubmitGuessedNumber(54);
-    expect(wrapper.state('guessedNumbers')).toEqual([54]);
-    expect(wrapper.state('guessResultText')).toEqual('Hot!');
-    expect(wrapper.state('guessedCorrectly')).toEqual(false);
+    expect(wrapper.state()).toEqual(expect.objectContaining(expectedObject));
   });
 
-  it('Can make a guess that is correct', () => {
+  it('recognises a guess that is \'Extremely Hot!!!\'', () => {
     const wrapper = shallow(<HotAndColdGame />);
     wrapper.setState({
       numberToGuess: 50
     });
 
+    const expectedObject = {
+      guessedNumbers: [52],
+      guessResultText: 'Extremely Hot!!!',
+      guessedCorrectly: false
+    };
+
+    wrapper.instance().onSubmitGuessedNumber(52);
+    expect(wrapper.state()).toEqual(expect.objectContaining(expectedObject));
+  });
+
+  it('recognises a guess that is correct', () => {
+    const wrapper = shallow(<HotAndColdGame />);
+    wrapper.setState({
+      numberToGuess: 50
+    });
+
+    const expectedObject = {
+      guessedNumbers: [50],
+      guessResultText: 'You Won. Click Restart Game to play again.',
+      guessedCorrectly: true
+    };
+
     wrapper.instance().onSubmitGuessedNumber(50);
-    expect(wrapper.state('guessedNumbers')).toEqual([50]);
-    expect(wrapper.state('guessResultText')).toEqual('You Won. Click Restart Game to play again.');
-    expect(wrapper.state('guessedCorrectly')).toEqual(true);
+    expect(wrapper.state()).toEqual(expect.objectContaining(expectedObject));
   });
 
 });
