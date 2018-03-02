@@ -14,13 +14,6 @@ describe('<HotAndColdGame />', () => {
     shallow(<HotAndColdGame />);
   });
 
-  it('can add guessed numbers to the state', () => {
-    const wrapper = shallow(<HotAndColdGame />);
-    const instance = wrapper.instance();
-    seedNumbers.forEach(instance.addGuessedNumber);
-    expect(wrapper.state('guessedNumbers').length).toEqual(seedNumbers.length);
-  });
-
   it('should generate a number to guess between min and max number', () => {
     const wrapper = shallow(<HotAndColdGame minNumber={1} maxNumber={100} />);
     expect(wrapper.state('numberToGuess')).toBeGreaterThanOrEqual(1);
@@ -40,7 +33,7 @@ describe('<HotAndColdGame />', () => {
     expect(wrapper.state('numberToGuess')).toBeLessThanOrEqual(100);
   });
 
-  it('Can make guesses', () => {
+  it('Can make a guess that is cold', () => {
     const wrapper = shallow(<HotAndColdGame />);
     wrapper.setState({
       numberToGuess: 50
@@ -49,22 +42,43 @@ describe('<HotAndColdGame />', () => {
     wrapper.instance().onSubmitGuessedNumber(25);
     expect(wrapper.state('guessedNumbers')).toEqual([25]);
     expect(wrapper.state('guessResultText')).toEqual('Brr ... Cold!');
+    expect(wrapper.state('guessedCorrectly')).toEqual(false);
+  });
 
-    wrapper.instance().onSubmitGuessedNumber(75);
-    expect(wrapper.state('guessedNumbers')).toEqual([25, 75]);
-    expect(wrapper.state('guessResultText')).toEqual('Brr ... Cold!');
+  it('Can make a guess that is kinda hot', () => {
+    const wrapper = shallow(<HotAndColdGame />);
+    wrapper.setState({
+      numberToGuess: 50
+    });
 
     wrapper.instance().onSubmitGuessedNumber(60);
-    expect(wrapper.state('guessedNumbers')).toEqual([25, 75, 60]);
+    expect(wrapper.state('guessedNumbers')).toEqual([60]);
     expect(wrapper.state('guessResultText')).toEqual('Kinda Hot ...');
+    expect(wrapper.state('guessedCorrectly')).toEqual(false);
+  });
+
+  it('Can make a guess that is hot', () => {
+    const wrapper = shallow(<HotAndColdGame />);
+    wrapper.setState({
+      numberToGuess: 50
+    });
 
     wrapper.instance().onSubmitGuessedNumber(54);
-    expect(wrapper.state('guessedNumbers')).toEqual([25, 75, 60, 54]);
+    expect(wrapper.state('guessedNumbers')).toEqual([54]);
     expect(wrapper.state('guessResultText')).toEqual('Hot!');
+    expect(wrapper.state('guessedCorrectly')).toEqual(false);
+  });
+
+  it('Can make a guess that is correct', () => {
+    const wrapper = shallow(<HotAndColdGame />);
+    wrapper.setState({
+      numberToGuess: 50
+    });
 
     wrapper.instance().onSubmitGuessedNumber(50);
-    expect(wrapper.state('guessedNumbers')).toEqual([25, 75, 60, 54, 50]);
+    expect(wrapper.state('guessedNumbers')).toEqual([50]);
     expect(wrapper.state('guessResultText')).toEqual('You Won. Click Restart Game to play again.');
+    expect(wrapper.state('guessedCorrectly')).toEqual(true);
   });
 
 });

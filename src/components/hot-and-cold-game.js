@@ -24,7 +24,7 @@ export default class HotAndColdApp extends React.Component {
       guessedNumbers: [],
       numberToGuess: this.generateNumberToGuess(this.props.minNumber, this.props.maxNumber)
     };
-    this.addGuessedNumber = this.addGuessedNumber.bind(this);
+    // this.addGuessedNumber = this.addGuessedNumber.bind(this);
   }
 
   setShowGameRules(showGameRules) {
@@ -45,10 +45,6 @@ export default class HotAndColdApp extends React.Component {
 
   setNumberToGuess(numberToGuess) {
     this.setState({numberToGuess});
-  }
-
-  addGuessedNumber(guessedNumber) {
-    this.setGuessedNumbers([...this.state.guessedNumbers, guessedNumber]);
   }
 
   onSubmitGuessedNumber(guessedNumber) {
