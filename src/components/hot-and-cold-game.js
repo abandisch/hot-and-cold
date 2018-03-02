@@ -53,10 +53,14 @@ export default class HotAndColdApp extends React.Component {
 
   onSubmitGuessedNumber(guessedNumber) {
     console.log('for testing - numberToGuess:', this.state.numberToGuess);
-    this.addGuessedNumber(guessedNumber);
-    const guessText = this.hotOrCold(this.state.numberToGuess, guessedNumber);
-    this.setGuessResultText(guessText);
-    this.setGuessedCorrectly(guessText === this.state.guessResultTextTemplates.gameWon);
+    const guessResultText = this.hotOrCold(this.state.numberToGuess, guessedNumber);
+    const guessedCorrectly = this.state.numberToGuess === guessedNumber;
+    const guessedNumbers = [...this.state.guessedNumbers, guessedNumber];
+    this.setState({
+      guessResultText,
+      guessedCorrectly,
+      guessedNumbers
+    });
   }
 
   onSubmitRestart() {
