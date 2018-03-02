@@ -22,6 +22,23 @@ const labelTemplates = {
   cold: 'Brr ... Cold!'
 };
 
+const hotOrColdLabel = (correctNumber, guessedNumber) => {
+  let label = '';
+  const abs = Math.abs(correctNumber - guessedNumber);
+  if (abs === 0) {
+    label = labelTemplates.gameEnd;
+  } else if (abs > 10) {
+    label = labelTemplates.cold;
+  } else if (abs <= 10 && abs >= 6) {
+    label = labelTemplates.kindaHot;
+  } else if (abs <= 5 && abs >=3) {
+    label = labelTemplates.hot;
+  } else if(abs < 3) {
+    label = labelTemplates.extremelyHot;
+  }
+  return label;
+};
+
 const generateNumberToGuess = (min, max) => {
   return Math.floor(Math.random() * max) + min;
 };
@@ -65,33 +82,18 @@ export default class HotAndColdApp extends React.Component {
     return state => ({...state, ...{guessedNumbers: [...state.guessedNumbers, newNumber]}});
   }
 
-  isCorrectGuess(guessedNumber) {
+  setCorrectGuess(guessedNumber) {
     return state => ({...state, ...{guessedCorrectly: state.numberToGuess === guessedNumber}})
   }
 
-  hotOrColdLabel = guessedNumber => {
-    return state => {
-      let label = '';
-      const abs = Math.abs(state.numberToGuess - guessedNumber);
-      if (state.numberToGuess === guessedNumber) {
-        label = labelTemplates.gameEnd;
-      } else if (abs > 10) {
-        label = labelTemplates.cold;
-      } else if (abs <= 10 && abs >= 6) {
-        label = labelTemplates.kindaHot;
-      } else if (abs <= 5 && abs >=3) {
-        label = labelTemplates.hot;
-      } else if(abs < 3) {
-        label = labelTemplates.extremelyHot;
-      }
-      return {...state, ...{guessResultText: label}}
-    };
+  setGuessResultText = guessedNumber => {
+    return state => ({...state, ...{guessResultText: hotOrColdLabel(state.numberToGuess, guessedNumber)}});
   };
 
   onSubmitGuessedNumber(guessedNumber) {
     const newState = compose(
-      this.hotOrColdLabel(guessedNumber),
-      this.isCorrectGuess(guessedNumber),
+      this.setGuessResultText(guessedNumber),
+      this.setCorrectGuess(guessedNumber),
       this.addGuessedNumber(guessedNumber))(this.state);
     this.setState(newState);
   }
