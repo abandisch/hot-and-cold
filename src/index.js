@@ -1,8 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Provider} from 'react-redux';
 import './index.css';
 import HotAndColdGame from './components/hot-and-cold-game';
-import registerServiceWorker from './registerServiceWorker';
+import store from './store';
+// import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<HotAndColdGame minNumber={1} maxNumber={100} />, document.getElementById('root'));
-registerServiceWorker();
+ReactDOM.render(
+  <Provider store={store}>
+    <HotAndColdGame minNumber={1} maxNumber={100} />
+  </Provider>,
+  document.getElementById('root')
+);
+// registerServiceWorker();
