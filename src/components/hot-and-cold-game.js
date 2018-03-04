@@ -10,8 +10,12 @@ import GuessNumberForm from './guess-number-form';
 import './hot-and-cold-game.css';
 
 export class HotAndColdGame extends React.Component {
+  constructor(props){
+    super(props);
+    this.onSubmitRestart = this.onSubmitRestart.bind(this);
+  }
   setShowGameRules(showGameRules) {
-    return () => this.props.dispatch(setShowGameRules(showGameRules));
+    this.props.dispatch(setShowGameRules(showGameRules));
   }
 
   onSubmitGuessedNumber(guessedNumber) {
@@ -23,25 +27,25 @@ export class HotAndColdGame extends React.Component {
   }
 
   render() {
-    const {minNumber, maxNumber} = this.props;
+    const {minNumber, maxNumber, guessResultText, guessedCorrectly, guessedNumbers} = this.props;
     if (this.props.showGameRules) {
-      return <GameRules onClickClose={this.setShowGameRules(false)} />
+      return <GameRules onClickClose={() => this.setShowGameRules(false)} />
     }
     return (
       <div>
-        <TopNavigation onClickNewGame={this.onSubmitRestart} onClickShowRules={this.setShowGameRules(true)}/>
+        <TopNavigation onClickNewGame={this.onSubmitRestart} onClickShowRules={() => this.setShowGameRules(true)}/>
         <h1>HOT or COLD</h1>
         <div className="game">
-          <GuessResult guessResultText={this.props.guessResultText} />
+          <GuessResult guessResultText={guessResultText} />
           <GuessNumberForm
-            disableInputField={this.props.guessedCorrectly}
-            onSubmit={number => this.props.guessedCorrectly ? this.onSubmitRestart() : this.onSubmitGuessedNumber(number)}
+            disableInputField={guessedCorrectly}
+            onSubmit={number => guessedCorrectly ? this.onSubmitRestart() : this.onSubmitGuessedNumber(number)}
             min={minNumber}
             max={maxNumber}
-            btnLabel={this.props.guessedCorrectly ? 'Restart Game!' : 'Guess'}
+            btnLabel={guessedCorrectly ? 'Restart Game!' : 'Guess'}
           />
-          <GuessedNumberCount count={this.props.guessedNumbers.length} />
-          <GuessedNumbersList numbers={this.props.guessedNumbers} />
+          <GuessedNumberCount count={guessedNumbers ? guessedNumbers.length : 0} />
+          <GuessedNumbersList numbers={guessedNumbers} />
         </div>
       </div>
     );
