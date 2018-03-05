@@ -7,49 +7,36 @@ import GuessResult from './guess-result';
 import GuessedNumbersList from './guessed-numbers-list';
 import GuessedNumberCount from './guessed-numbers-count';
 import GuessNumberForm from './guess-number-form';
+import {compose} from './utils';
 import './hot-and-cold-game.css';
 
-export class HotAndColdGame extends React.Component {
-  constructor(props){
-    super(props);
-    this.onSubmitRestart = this.onSubmitRestart.bind(this);
-  }
-  setShowGameRules(showGameRules) {
-    this.props.dispatch(setShowGameRules(showGameRules));
-  }
+const hideGameRules = () => (setShowGameRules(false));
+const displayGameRules = () => (setShowGameRules(true));
+const submitAGuess = (guess) => (makeAGuess(guess));
+const restartHotColdGame = () => (restartGame(1, 100));
 
-  onSubmitGuessedNumber(guessedNumber) {
-    this.props.dispatch(makeAGuess(guessedNumber))
-  }
+export function HotAndColdGame(props) {
 
-  onSubmitRestart() {
-    this.props.dispatch(restartGame(this.props.minNumber, this.props.maxNumber));
-  }
+  const {minNumber, maxNumber, guessResultText, guessedCorrectly, guessedNumbers, showGameRules, dispatch} = props;
 
-  render() {
-    const {minNumber, maxNumber, guessResultText, guessedCorrectly, guessedNumbers} = this.props;
-    if (this.props.showGameRules) {
-      return <GameRules onClickClose={() => this.setShowGameRules(false)} />
-    }
-    return (
-      <div>
-        <TopNavigation onClickNewGame={this.onSubmitRestart} onClickShowRules={() => this.setShowGameRules(true)}/>
-        <h1>HOT or COLD</h1>
-        <div className="game">
-          <GuessResult guessResultText={guessResultText} />
-          <GuessNumberForm
-            disableInputField={guessedCorrectly}
-            onSubmit={number => guessedCorrectly ? this.onSubmitRestart() : this.onSubmitGuessedNumber(number)}
-            min={minNumber}
-            max={maxNumber}
-            btnLabel={guessedCorrectly ? 'Restart Game!' : 'Guess'}
-          />
-          <GuessedNumberCount count={guessedNumbers ? guessedNumbers.length : 0} />
-          <GuessedNumbersList numbers={guessedNumbers} />
-        </div>
+  return showGameRules ?
+    (<GameRules onClickClose={compose(dispatch, hideGameRules)} />) :
+    (<div>
+      <TopNavigation onClickNewGame={compose(dispatch, restartHotColdGame)} onClickShowRules={compose(dispatch, displayGameRules)}/>
+      <h1>HOT or COLD</h1>
+      <div className="game">
+        <GuessResult guessResultText={guessResultText} />
+        <GuessNumberForm
+          disableInputField={guessedCorrectly}
+          onSubmit={number => guessedCorrectly ? compose(dispatch, restartHotColdGame)() : compose(dispatch, submitAGuess)(number)}
+          min={minNumber}
+          max={maxNumber}
+          btnLabel={guessedCorrectly ? 'Restart Game!' : 'Guess'}
+        />
+        <GuessedNumberCount count={guessedNumbers ? guessedNumbers.length : 0} />
+        <GuessedNumbersList numbers={guessedNumbers} />
       </div>
-    );
-  }
+    </div>);
 }
 
 HotAndColdGame.defaultProps = {

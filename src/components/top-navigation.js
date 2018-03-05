@@ -6,7 +6,7 @@ export default function TopNavigation({onClickNewGame, onClickShowRules}) {
     <nav>
       <ul>
         <li><button id="show-rules" onClick={onClickShowRules}>What?</button></li>
-        <li><button id="new-game" onClick={() => onClickNewGame()}>+ New Game</button></li>
+        <li><button id="new-game" onClick={onClickNewGame}>+ New Game</button></li>
       </ul>
     </nav>
   );

@@ -4,39 +4,29 @@ import {HotAndColdGame} from './hot-and-cold-game';
 import {restartGame, makeAGuess, setShowGameRules} from '../actions';
 
 describe('<HotAndColdGame />', () => {
-  let seedNumbers = [];
-  beforeAll(() => {
-    for (let i = 0; i < 10; i++) {
-      seedNumbers.push(Math.floor(Math.random() * 100) + 1); // Math.floor(Math.random() * max) + min;
-    }
-  });
 
   it('renders without crashing', () => {
     shallow(<HotAndColdGame minNumber={1} maxNumber={100} guessedNumbers={[]} />);
   });
 
-  it('dispatches restartGame from onSubmitRestart', () => {
+  it('starts a new game when the \'New Game\' link us clicked', () => {
     const dispatch = jest.fn();
     const wrapper = shallow(<HotAndColdGame dispatch={dispatch} />);
-    const instance = wrapper.instance();
-    instance.onSubmitRestart();
+    wrapper.find('TopNavigation').simulate('clickNewGame');
     expect(dispatch).toHaveBeenCalledWith(restartGame(1, 100));
   });
 
-  it('dispatches makeAGuess from onSubmitRestart', () => {
+  it('accepts a guess from the GuessNumberForm', () => {
     const dispatch = jest.fn();
     const wrapper = shallow(<HotAndColdGame dispatch={dispatch} />);
-    const instance = wrapper.instance();
-    const guessedNumber = 12;
-    instance.onSubmitGuessedNumber(guessedNumber);
-    expect(dispatch).toHaveBeenCalledWith(makeAGuess(guessedNumber));
+    wrapper.find('GuessNumberForm').simulate('submit');
+    expect(dispatch).toHaveBeenCalledWith(makeAGuess());
   });
 
-  it('dispatches setShowGameRules from setShowGameRules', () => {
+  it('removes the GameRules component when the close button is clicked', () => {
     const dispatch = jest.fn();
-    const wrapper = shallow(<HotAndColdGame dispatch={dispatch} />);
-    const instance = wrapper.instance();
-    instance.setShowGameRules(true);
-    expect(dispatch).toHaveBeenCalledWith(setShowGameRules(true));
+    const wrapper = shallow(<HotAndColdGame showGameRules={true} dispatch={dispatch} />);
+    wrapper.find('GameRules').simulate('clickClose');
+    expect(dispatch).toHaveBeenCalledWith(setShowGameRules(false));
   });
 });

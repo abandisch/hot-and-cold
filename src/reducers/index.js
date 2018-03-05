@@ -1,10 +1,5 @@
 import {SHOW_GAME_RULES, MAKE_A_GUESS, RESTART_GAME} from "../actions";
-
-const compose = (...fns) => (...args) => {
-  return fns.slice(0, -1).reduceRight((res, fn) => fn(res),
-    fns[fns.length -1].apply(null,args)
-  );
-};
+import {compose} from "../components/utils";
 
 export const labelTemplates = {
   gameStart: 'Make a Guess!',
