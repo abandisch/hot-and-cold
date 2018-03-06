@@ -1,8 +1,7 @@
 import {
   SHOW_GAME_RULES,
   MAKE_A_GUESS,
-  RESTART_GAME,
-  UPDATE_GUESS_FEEDBACK
+  RESTART_GAME
 } from './actionTypes';
 
 export const displayRules = showRules => ({
@@ -18,9 +17,4 @@ export const makeGuess = (guessedNumber) => ({
 export const restartGame = numberToGuess => ({
   type: RESTART_GAME,
   numberToGuess
-});
-
-export const updateFeedbackText = feedbackText => ({
-  type: UPDATE_GUESS_FEEDBACK,
-  feedbackText
 });

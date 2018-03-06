@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
 import GuessFeedback from '../components/GuessFeedback';
-import textTemplates from '../reducers/textTemplates';
+import textTemplates from './textTemplates';
 
 const evaluateFeedbackText = (numbersGuessed, numberToGuess) => {
   if (numbersGuessed.length === 0) {

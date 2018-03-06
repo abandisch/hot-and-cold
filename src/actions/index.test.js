@@ -1,19 +1,20 @@
-import {SHOW_GAME_RULES, setShowGameRules, MAKE_A_GUESS, makeAGuess, RESTART_GAME, restartGame} from './index';
+import {SHOW_GAME_RULES, RESTART_GAME, MAKE_A_GUESS} from './actionTypes';
+import {displayRules, restartGame, makeGuess} from './index';
 
 describe('# Actions', () => {
-  describe('# setShowGameRules', () => {
-    it('returns the setShowGameRules action', () => {
+  describe('# displayRules', () => {
+    it('returns the displayRules action', () => {
       const showRules = true;
-      const action = setShowGameRules(showRules);
+      const action = displayRules(showRules);
       expect(action.type).toEqual(SHOW_GAME_RULES);
-      expect(action.showGameRules).toEqual(showRules);
+      expect(action.showRules).toEqual(showRules);
     });
   });
 
-  describe('# makeAGuess', () => {
-    it('returns the makeAGuess action', () => {
+  describe('# makeGuess', () => {
+    it('returns the makeGuess action', () => {
       const guessedNumber = 32;
-      const action = makeAGuess(guessedNumber);
+      const action = makeGuess(guessedNumber);
       expect(action.type).toEqual(MAKE_A_GUESS);
       expect(action.guessedNumber).toEqual(guessedNumber);
     });
@@ -21,12 +22,10 @@ describe('# Actions', () => {
 
   describe('# restartGame', () => {
     it('returns the restartGame action', () => {
-      const minNumber = 1;
-      const maxNumber = 100;
-      const action = restartGame(minNumber, maxNumber);
+      const numberToGuess = 50;
+      const action = restartGame(numberToGuess);
       expect(action.type).toEqual(RESTART_GAME);
-      expect(action.minNumber).toEqual(minNumber);
-      expect(action.maxNumber).toEqual(maxNumber);
+      expect(action.numberToGuess).toEqual(numberToGuess);
     });
   });
 });
