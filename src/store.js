@@ -1,3 +1,3 @@
 import {createStore} from 'redux';
-import {hotAndColdGameReducer} from "./reducers";
-export default createStore(hotAndColdGameReducer);
+import gameReducer from "./reducers";
+export default createStore(gameReducer);

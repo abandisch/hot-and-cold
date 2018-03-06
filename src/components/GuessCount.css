@@ -1,0 +1,11 @@
+.guess-count {
+    margin-top: 0.5em;
+    font-size: 1.8em;
+    padding-bottom: 0.5em;
+}
+
+.guess-count > span.count {
+    color: #f39c12;
+    font-weight: 700;
+    font-size: 1.5em;
+}

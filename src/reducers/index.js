@@ -1,84 +1,49 @@
-import {SHOW_GAME_RULES, MAKE_A_GUESS, RESTART_GAME} from "../actions";
-import {compose} from "../components/utils";
-
-export const labelTemplates = {
-  gameStart: 'Make a Guess!',
-  gameEnd: 'You Won. Click Restart Game to play again.',
-  extremelyHot: 'Extremely Hot!!!',
-  hot: 'Hot!',
-  kindaHot: 'Kinda Hot ...',
-  cold: 'Brr ... Cold!'
-};
-
-export const generateNumberToGuess = (min, max) => {
-  return Math.floor(Math.random() * max) + min;
-};
-
-export const hotOrColdLabel = (correctNumber, guessedNumber) => {
-  let label = '';
-  const abs = Math.abs(correctNumber - guessedNumber);
-  if (abs === 0) {
-    label = labelTemplates.gameEnd;
-  } else if (abs > 10) {
-    label = labelTemplates.cold;
-  } else if (abs <= 10 && abs >= 6) {
-    label = labelTemplates.kindaHot;
-  } else if (abs <= 5 && abs >=3) {
-    label = labelTemplates.hot;
-  } else if(abs < 3) {
-    label = labelTemplates.extremelyHot;
-  }
-  return label;
-};
-
-export const setGuessResultText = guessedNumber => {
-  return state => ({...state, ...{guessResultText: hotOrColdLabel(state.numberToGuess, guessedNumber)}});
-};
-
-export const checkGuessedCorrectly = guessedNumber => {
-  return state => ({...state, ...{guessedCorrectly: state.numberToGuess === guessedNumber}})
-};
-
-export const addGuessedNumber = newNumber => {
-  return state => ({...state, ...{guessedNumbers: [...state.guessedNumbers, newNumber]}});
-};
-
-export const regenerateNumberToGuess = (minNumber, maxNumber) => {
-  return state => ({...state, ...{numberToGuess: generateNumberToGuess(minNumber, maxNumber)}})
-};
-
-export const setGuessedCorrectly = guessedCorrectly => {
-  return state => ({...state, ...{guessedCorrectly}});
-};
-
-export const resetGuessResultText = state => ({...state, ...{guessResultText: labelTemplates.gameStart}});
-
-export const resetGuessedNumbers = state => ({...state, ...{guessedNumbers: []}});
+import {SHOW_GAME_RULES, RESTART_GAME, MAKE_A_GUESS, UPDATE_GUESS_FEEDBACK} from '../actions/actionTypes';
+import textTemplates from './textTemplates';
+import randomNumberGenerator from '../utils/randomNumberGenerator';
 
 const initialState = {
-  showGameRules: false,
-  guessResultText: labelTemplates.gameStart,
-  guessedCorrectly: false,
-  guessedNumbers: [],
-  numberToGuess: generateNumberToGuess(1, 100)
+  showRules: false, // UI state for displaying the rules
+  feedbackText: textTemplates.startGame,
+  numbersGuessed: [],
+  numberToGuess: randomNumberGenerator(1, 100)
 };
 
-export const hotAndColdGameReducer = (state = initialState, action) => {
+const gameReducer = (state = initialState, action) => {
   if (action.type === SHOW_GAME_RULES) {
-    return ({...state, ...{showGameRules: action.showGameRules}});
-  }
-  else if (action.type === MAKE_A_GUESS) {
-    return compose(
-      setGuessResultText(action.guessedNumber),
-      checkGuessedCorrectly(action.guessedNumber),
-      addGuessedNumber(action.guessedNumber))(state);
+    console.log('showing rules');
+    console.log('state:', state);
+    return {...state, ...{showRules: action.showRules}};
   }
   else if (action.type === RESTART_GAME) {
-    return compose(
-      regenerateNumberToGuess(action.minNumber, action.maxNumber),
-      setGuessedCorrectly(false),
-      resetGuessResultText,
-      resetGuessedNumbers)(state);
+    console.log('restarting game');
+    console.log('state:', state);
+    return {...state, ...{
+        feedbackText: textTemplates.startGame,
+        numbersGuessed: [],
+        numberToGuess: action.numberToGuess
+      }
+    }
   }
-  return state;
+  else if (action.type === MAKE_A_GUESS) {
+    console.log('make a guess');
+    console.log('state:', state);
+    console.log('action:', action);
+
+    return {...state,
+      ...{
+        numbersGuessed: [ ...state.numbersGuessed, action.guessedNumber]
+      }
+    };
+  }
+  else if (action.type === UPDATE_GUESS_FEEDBACK) {
+    console.log('update feedback');
+    return {...state,
+      ...{
+        feedbackText: action.feedbackText
+      }
+    };
+  }
 };
+
+export default gameReducer;

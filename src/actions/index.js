@@ -1,18 +1,26 @@
-export const SHOW_GAME_RULES = 'SHOW_GAME_RULES';
-export const setShowGameRules = showGameRules => ({
+import {
+  SHOW_GAME_RULES,
+  MAKE_A_GUESS,
+  RESTART_GAME,
+  UPDATE_GUESS_FEEDBACK
+} from './actionTypes';
+
+export const displayRules = showRules => ({
   type: SHOW_GAME_RULES,
-  showGameRules
+  showRules
 });
 
-export const MAKE_A_GUESS = 'MAKE_GUESS';
-export const makeAGuess = guessedNumber => ({
+export const makeGuess = (guessedNumber) => ({
   type: MAKE_A_GUESS,
   guessedNumber
 });
 
-export const RESTART_GAME = 'RESTART_GAME';
-export const restartGame = (min, max) => ({
+export const restartGame = numberToGuess => ({
   type: RESTART_GAME,
-  minNumber: min,
-  maxNumber: max
+  numberToGuess
+});
+
+export const updateFeedbackText = feedbackText => ({
+  type: UPDATE_GUESS_FEEDBACK,
+  feedbackText
 });
