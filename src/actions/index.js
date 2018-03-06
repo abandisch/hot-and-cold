@@ -1,6 +1,6 @@
 import {
   SHOW_GAME_RULES,
-  MAKE_A_GUESS,
+  ADD_GUESSED_NUMBER,
   RESTART_GAME
 } from './actionTypes';
 
@@ -9,8 +9,8 @@ export const displayRules = showRules => ({
   showRules
 });
 
-export const makeGuess = (guessedNumber) => ({
-  type: MAKE_A_GUESS,
+export const addGuessedNumber = (guessedNumber) => ({
+  type: ADD_GUESSED_NUMBER,
   guessedNumber
 });
 

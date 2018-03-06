@@ -15,7 +15,7 @@
 
 ------
 
-import {SHOW_GAME_RULES, MAKE_A_GUESS, RESTART_GAME} from "../actions";
+import {SHOW_GAME_RULES, ADD_GUESSED_NUMBER, RESTART_GAME} from "../actions";
 import {compose} from "../components/utils";
 
 export const labelTemplates = {
@@ -84,7 +84,7 @@ export const hotAndColdGameReducer = (state = initialState, action) => {
   if (action.type === SHOW_GAME_RULES) {
     return ({...state, ...{showGameRules: action.showGameRules}});
   }
-  else if (action.type === MAKE_A_GUESS) {
+  else if (action.type === ADD_GUESSED_NUMBER) {
     return compose(
       setGuessResultText(action.guessedNumber),
       checkGuessedCorrectly(action.guessedNumber),

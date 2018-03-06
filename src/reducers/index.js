@@ -1,4 +1,4 @@
-import {SHOW_GAME_RULES, RESTART_GAME, MAKE_A_GUESS} from '../actions/actionTypes';
+import {SHOW_GAME_RULES, RESTART_GAME, ADD_GUESSED_NUMBER} from '../actions/actionTypes';
 import randomNumberGenerator from '../utils/randomNumberGenerator';
 
 const initialState = {
@@ -18,7 +18,7 @@ const gameReducer = (state = initialState, action) => {
       }
     }
   }
-  else if (action.type === MAKE_A_GUESS) {
+  else if (action.type === ADD_GUESSED_NUMBER) {
     return {...state,
       ...{
         numbersGuessed: [ ...state.numbersGuessed, action.guessedNumber]

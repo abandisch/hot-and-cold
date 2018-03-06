@@ -1,5 +1,5 @@
-import {SHOW_GAME_RULES, RESTART_GAME, MAKE_A_GUESS} from './actionTypes';
-import {displayRules, restartGame, makeGuess} from './index';
+import {SHOW_GAME_RULES, RESTART_GAME, ADD_GUESSED_NUMBER} from './actionTypes';
+import {displayRules, restartGame, addGuessedNumber} from './index';
 
 describe('# Actions', () => {
   describe('# displayRules', () => {
@@ -11,11 +11,11 @@ describe('# Actions', () => {
     });
   });
 
-  describe('# makeGuess', () => {
-    it('returns the makeGuess action', () => {
+  describe('# addGuessedNumber', () => {
+    it('returns the addGuessedNumber action', () => {
       const guessedNumber = 32;
-      const action = makeGuess(guessedNumber);
-      expect(action.type).toEqual(MAKE_A_GUESS);
+      const action = addGuessedNumber(guessedNumber);
+      expect(action.type).toEqual(ADD_GUESSED_NUMBER);
       expect(action.guessedNumber).toEqual(guessedNumber);
     });
   });
