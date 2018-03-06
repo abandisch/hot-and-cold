@@ -1,0 +1,73 @@
+.game-rules-container {
+    width: 100vw;
+    height: 100vh;
+    color: #fff;
+    background: #e74c3c;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    z-index: 1000;
+}
+.game-rules-container .content {
+    color: #fff;
+    background: #e74c3c;
+    position: relative;
+    height: auto;
+    width: 600px;
+    border-radius: 3px;
+    top: 15%;
+    margin: auto auto;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+.game-rules-container .content h3 {
+    margin: 0;
+    padding: 0.4em;
+    text-align: center;
+    font-size: 2.4em;
+    font-weight: 300;
+    opacity: 0.8;
+    background: rgba(0,0,0,0.1);
+    border-radius: 3px 3px 0 0;
+}
+.game-rules-container .content .rules {
+    padding: 5%;
+}
+.game-rules-container .content p {
+    margin: 0;
+    padding: 10px 0;
+    line-height: 2em;
+    font-size: 18px;
+}
+.game-rules-container .content ul {
+    text-align: justify;
+    font-size: 18px;
+}
+.game-rules-container .content ul > li {
+    margin: 0 0 8px;
+}
+.game-rules-container .content button {
+    width: auto;
+    font-size: 1em;
+    background: #1F253D;
+    color: #c5dbdc;
+    padding: 0.5em 2em;
+    margin-bottom: 50px;
+    border-radius: 3px;
+    -webkit-transition: background 0.2s ease-in-out;
+    -moz-transition: background 0.2s ease-in-out;
+    -ms-transition: background 0.2s ease-in-out;
+    -o-transition: background 0.2s ease-in-out;
+    transition: background 0.2s ease-in-out;
+}
+
+.game-rules-container .content button:hover {
+    background: #e64c65;
+    color: #fff;
+    -webkit-transition: background 0.2s ease-in-out;
+    -moz-transition: background 0.2s ease-in-out;
+    -ms-transition: background 0.2s ease-in-out;
+    -o-transition: background 0.2s ease-in-out;
+    transition: background 0.2s ease-in-out;
+    cursor: pointer;
+}
