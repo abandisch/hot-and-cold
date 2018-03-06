@@ -12,7 +12,7 @@ const checkGameOver = (guessedNumbers, numberToGuess) => {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    isGameOver: state ? checkGameOver(state.numbersGuessed, state.numberToGuess) : false
+    isGameOver: checkGameOver(state.numbersGuessed, state.numberToGuess)
   }
 };
 

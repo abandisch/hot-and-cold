@@ -27,7 +27,7 @@ const evaluateFeedbackText = (numbersGuessed, numberToGuess) => {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    feedbackText: state ? evaluateFeedbackText(state.numbersGuessed, state.numberToGuess) : textTemplates.startGame
+    feedbackText: evaluateFeedbackText(state.numbersGuessed, state.numberToGuess)
   }
 };
 

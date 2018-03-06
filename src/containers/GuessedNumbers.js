@@ -3,7 +3,7 @@ import GuessedNumbersList from '../components/GuessedNumbersList';
 
 const mapStateToProps = state => {
   return {
-    numbersGuessed: state ? state.numbersGuessed : []
+    numbersGuessed: state.numbersGuessed
   }
 };
 

@@ -6,8 +6,8 @@ import './Navigation.css';
 const Navigation = () => (
   <nav>
     <ul>
-      <NavLink btnAction={SHOW_GAME_RULES}>What?</NavLink>
-      <NavLink btnAction={RESTART_GAME}>+ New Game</NavLink>
+      <NavLink linkClass={'display-rules'} btnAction={SHOW_GAME_RULES}>What?</NavLink>
+      <NavLink linkClass={'restart-game'} btnAction={RESTART_GAME}>+ New Game</NavLink>
     </ul>
   </nav>
 );

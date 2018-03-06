@@ -11,13 +11,9 @@ const initialState = {
 
 const gameReducer = (state = initialState, action) => {
   if (action.type === SHOW_GAME_RULES) {
-    console.log('showing rules');
-    console.log('state:', state);
     return {...state, ...{showRules: action.showRules}};
   }
   else if (action.type === RESTART_GAME) {
-    console.log('restarting game');
-    console.log('state:', state);
     return {...state, ...{
         feedbackText: textTemplates.startGame,
         numbersGuessed: [],
@@ -26,10 +22,6 @@ const gameReducer = (state = initialState, action) => {
     }
   }
   else if (action.type === MAKE_A_GUESS) {
-    console.log('make a guess');
-    console.log('state:', state);
-    console.log('action:', action);
-
     return {...state,
       ...{
         numbersGuessed: [ ...state.numbersGuessed, action.guessedNumber]
@@ -37,13 +29,13 @@ const gameReducer = (state = initialState, action) => {
     };
   }
   else if (action.type === UPDATE_GUESS_FEEDBACK) {
-    console.log('update feedback');
     return {...state,
       ...{
         feedbackText: action.feedbackText
       }
     };
   }
+  return state;
 };
 
 export default gameReducer;

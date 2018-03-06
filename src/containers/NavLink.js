@@ -4,19 +4,8 @@ import randomNumberGenerator from '../utils/randomNumberGenerator';
 import NavItem from '../components/NavItem';
 import {RESTART_GAME, SHOW_GAME_RULES} from '../actions/actionTypes';
 
-const getButtonClass = (btnAction) => {
-  if (btnAction === RESTART_GAME) {
-    return 'restart-game';
-  } else if (btnAction === SHOW_GAME_RULES) {
-    return 'display-rules';
-  }
-  return '';
-};
-
 const mapStateToProps = (state, ownProps) => {
-  return {
-    btnClass: getButtonClass(ownProps.btnAction),
-  }
+  return { }
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {

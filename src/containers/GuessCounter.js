@@ -3,7 +3,7 @@ import GuessCountDisplay from '../components/GuessCountDisplay';
 
 const mapStateToProps = state => {
   return {
-    count: state ? state.numbersGuessed.length : 0
+    count: state.numbersGuessed.length
   }
 };
 
